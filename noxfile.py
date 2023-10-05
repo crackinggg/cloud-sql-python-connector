@@ -1,20 +1,3 @@
-"""
-Copyright 2019 Google LLC
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-  https://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-"""
-
-
 from __future__ import absolute_import
 import os
 import nox
@@ -28,6 +11,7 @@ if os.path.exists("samples"):
 @nox.session
 def lint(session):
     """Run linters.
+    
     Returns a failure if the linters find linting errors or sufficiently
     serious code quality issues.
     """
@@ -48,6 +32,7 @@ def lint(session):
 
 
 def default(session, path):
+    """Default test runner."""
     # Install all test dependencies, then install this package in-place.
     session.install("-r", "requirements-test.txt")
     session.install("-e", ".")
@@ -68,15 +53,18 @@ def default(session, path):
 
 @nox.session(python=["3.8", "3.9", "3.10", "3.11"])
 def unit(session):
+    """Run unit tests."""
     default(session, os.path.join("tests", "unit"))
 
 
 @nox.session(python=["3.8", "3.9", "3.10", "3.11"])
 def system(session):
+    """Run system tests."""
     default(session, os.path.join("tests", "system"))
 
 
 @nox.session(python=["3.8", "3.9", "3.10", "3.11"])
 def test(session):
+    """Run both unit and system tests."""
     default(session, os.path.join("tests", "unit"))
     default(session, os.path.join("tests", "system"))
